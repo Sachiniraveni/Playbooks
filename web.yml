@@ -8,7 +8,7 @@
         name: "{{ p_name }}"
         state: present
       register: x
-
+   
     - name: copying the file 
       copy:
       # src: "index.html"
