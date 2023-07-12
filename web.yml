@@ -1,0 +1,31 @@
+- hosts: all
+  vars:
+    - n: "ansible"
+    - p_name: "httpd"
+  tasks:
+    - name: installing the package httpd
+      package:
+        name: "{{ p_name }}"
+        state: present
+      register: x
+
+    - name: copying the file 
+      copy:
+      # src: "index.html"
+        content: "this is {{ n }}\n"
+        dest: "/var/www/html/index.html"
+      register: z
+      when: x.failed == false
+      ignore_errors: true
+     
+    - name: starting the httpd service     
+      service: 
+        name: "httpd"
+        state: started
+      when: z.failed == false
+
+    - debug:
+        var: x.rc
+
+    - debug:
+        var: z

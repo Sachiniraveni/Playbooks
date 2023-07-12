@@ -1,0 +1,16 @@
+- hosts: localhost
+  vars_files:
+    - var.yml
+  tasks:
+  - name: sending a mail using gmail smtp server.
+    mail: 
+     host: smtp.gmail.com
+     port: 587
+     username: "{{ uname }}"
+     password: "{{ mypass }}"
+     to: iraveni1998@gmail.com
+     subject: ansible report
+     body: System {{ ansible_hostname }} has been successfully generated.
+
+
+    
