@@ -1,0 +1,25 @@
+- hosts: all
+  vars:
+    mypass: "redhat"
+    usersdb:
+      - name: jack
+        password: redhat
+        group: lw
+
+      - name: emily
+        password: redhat
+        group: lw
+
+
+  tasks:
+    - group:
+        name: "{{ item.group}}"
+        state: present
+      loop: "{{ usersdb }}"
+
+    - user:
+        name: "{{ item.name }}"
+        password: "{{ item.password | password_hash('sha512') }}"
+        state: present
+        groups: "{{ item.group }}"
+      loop: "{{ usersdb }}"

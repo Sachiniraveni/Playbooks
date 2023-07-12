@@ -1,0 +1,29 @@
+- hosts: all
+  tasks:
+    - name: installing httpd
+      package:
+        name: "httpd"
+        state: present
+
+    - name: copy some content
+      copy:
+        src: index.html
+        dest: "/var/www/html/index.html"
+      notify: start service
+
+    - name: lineinfile
+      lineinfile:
+        path: /var/www/html/index.html
+        line: "Ansible Galaxy"
+        regexp: '\[hello\]'
+        insertbefore: '\[hello\]'
+        backrefs: yes
+        state: present
+      register: x
+
+  handlers:
+    - name: start service
+      service:
+        name: httpd
+        state: started
+      

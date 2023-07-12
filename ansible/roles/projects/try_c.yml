@@ -1,0 +1,11 @@
+- hosts: web
+  tasks:
+   - name: block code
+     block:
+      - command: date1
+     rescue:
+      - command: date
+
+     always:
+      - debug:
+          msg: "test...end"
